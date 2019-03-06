@@ -2498,7 +2498,7 @@ hipError_t hipModuleGetFunction(hipFunction_t* function, hipModule_t module, con
 hipError_t hipFuncGetAttributes(hipFuncAttributes* attr, const void* func);
 
 struct Agent_global {
-    std::string name;
+    char* name;
     hipDeviceptr_t address;
     uint32_t byte_cnt;
 };
@@ -2514,7 +2514,7 @@ template<typename ForwardIterator>
 std::pair<hipDeviceptr_t, std::size_t> read_global_description(
     ForwardIterator f, ForwardIterator l, const char* name) {
     const auto it = std::find_if(f, l, [=](const Agent_global& x) {
-        return x.name == name;
+        return strcmp(x.name, name) == 0;
     });
 
     return it == l ?
